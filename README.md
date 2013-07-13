@@ -1,0 +1,4 @@
+rimc
+====
+
+Ruby ImageMagic Converter 
