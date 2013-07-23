@@ -1,0 +1,47 @@
+tasks:
+ resize:
+  - "small image":
+     src: "some/folder/here"
+     dest: "some/folder/here"
+     size: "200x200"
+     aspect_ratio: true
+     format:
+      - jpg
+      - gif
+  - "big image":
+     src: "some/folder/here"
+     dest: "some/folder/here"
+     size: "600x600"
+ crop:
+  - "thumbnail":
+     src: "some/folder/here"
+     dest: "some/folder/here"
+     area: "200x200"
+     prefix: “thumb-”
+     from: "left corner"
+ css_sprite:
+  - "linear":
+     src: "path/to/folder"
+     dest: "sprite.png"
+     type: "linear"
+ filtering:
+  - "make b/w":
+     src: "path/to/folder/or/file"
+     dest: "path/to/folder/or/file"
+     filters:
+      - bw
+      - sepia
+      - x-pro2
+ rotate:
+  - "rotate":
+     src: "Images/Original"
+     dest: "Images/Destination/Rotated Images"
+     angle: 90 
+run:
+  default:
+   - rotate
+   - big image
+   - gg
+  custom:
+   - big image
+   - make b/w
