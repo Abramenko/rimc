@@ -1,4 +1,4 @@
-tasks:
+descriptions:
  resize:
   - "small image":
      src: "some/folder/here"
@@ -37,11 +37,11 @@ tasks:
      src: "Images/Original"
      dest: "Images/Destination/Rotated Images"
      angle: 90 
-run:
+tasks:
   default:
    - rotate
    - big image
-   - gg
+   - delete
   custom:
    - big image
    - make b/w
