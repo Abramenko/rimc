@@ -35,8 +35,8 @@ descriptions:
  rotate:
   - "rotate":
      src: "Images/Original"
-     dest: "Images/Destination/Rotated Images"
-     angle: 90 
+     dest: "Images/Destination/Rotated"
+     angle: 27
 tasks:
   default:
    - rotate
