@@ -9,11 +9,13 @@ class TaskList
   end
 
   def refresh(config)
+
+    @execute = false 
     @config    = YAML.load_file(config)
+    @number_of_completed_tasks = 0
     @task_list  = @config["tasks"]["default"]
     correction_task_list
     exit if not_allowed
-    @number_of_completed_tasks = 0
   end
 	
   def not_allowed
@@ -32,8 +34,8 @@ class TaskList
 
   def tasks_with_descriptions
   	tasks = Array.new
-    @config["descriptions"].each_value do |groups|
-      groups.each do |method|
+    @config["descriptions"].each_value do |group_config|
+      group_config.each do |method|
         method.each_key{|key| tasks << key}
       end
     end
@@ -42,11 +44,20 @@ class TaskList
 
   def next_task
     if @number_of_completed_tasks < @task_list.length
+      @number_of_completed_tasks += 1 if @execute
+      @execute = true unless @execute 
       task = @task_list[@number_of_completed_tasks]
-      @number_of_completed_tasks += 1
       task
     else
       nil
+    end
+  end
+
+  def current_group
+    @config["descriptions"].each do |group,group_config|
+      group_config.each do |method|
+        method.each_key{|key| return group if key == current_task}
+      end
     end
   end
 
@@ -55,15 +66,15 @@ class TaskList
   end
 
   def task_config(*option)
-    @config["descriptions"].each_value do |groups|
-      groups.each do |method|
+    @config["descriptions"].each_value do |group_config|
+      group_config.each do |method|
         method.each do |key, value| 
         if key == current_task
           if option.empty?
             return value
           elsif option.length == 1
             result = nil
-            value.each {|k, v| result = v if k == option[0]}
+            value.each {|k, v| result = v if k == option.first}
             return result
           else
             result = Array.new
@@ -77,7 +88,7 @@ class TaskList
   end
 
 
-	public :refresh, :next_task, :current_task, :task_config
-	private :not_allowed, :tasks_with_descriptions, :correction_task_list
+	public  :next_task, :current_task, :task_config, :current_group
+	private :not_allowed, :tasks_with_descriptions, :correction_task_list, :refresh
 end
 

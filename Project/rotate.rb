@@ -8,15 +8,17 @@ module Rotate
   def self.do(task_list, controller)
   	angle = task_list.task_config("angle")
     angle = 0 if angle.nil?
-  	
-  	pbar = ProgressBar.new("#{task_list.current_task}", 100)
     img = Magick::ImageList.new
     files = controller.src_files
+    pbar = ProgressBar.new("#{task_list.current_task}", files.length)
     files.each do |f|
-  	  img.read(f)
+  	  controller.src
+      img.read(f)
   	  img.each{|i| i.rotate!(angle)}
-  	  img.display
+  	  controller.dest
+      img.write(f)
   	  img.clear
+      pbar.format="%-14s %3d%% #{f} %s %s"
   	  pbar.inc
     end
   pbar.finish

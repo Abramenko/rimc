@@ -36,12 +36,19 @@ descriptions:
   - "rotate":
      src: "Images/Original"
      dest: "Images/Destination/Rotated"
-     angle: 27
+     angle: 90
+     format: 
+      - gif
+      - pdf
 tasks:
   default:
    - rotate
    - big image
-   - delete
+   - make b/w
+   - linear
+   - thumbnail
   custom:
    - big image
    - make b/w
+
+#нельзя чтоб имена задач повторялись

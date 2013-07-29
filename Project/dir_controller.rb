@@ -6,39 +6,56 @@ class DirController
     @root = Dir.getwd
   end
 
-  def src_files(*formats)
-  	@task_list.task_config.each {|k, v| @src = v if k == "src"}
-    Dir.chdir(@root)
-    if Dir.exist?(@src)
-      Dir.chdir(@src)
+  def src_files
+      src
       files = Dir.glob("*.*")
-      if formats.empty?
+      formats = @task_list.task_config("format")
+      if formats.nil?
         files
       else
         result = Array.new
         formats.each do |format|
           files.each do |file|
-            result << file if file.include?(format)
+            result << file if file.include?("." + format)
           end
         end
         return result
       end
-    else
-      puts "ERROR(-#{@task_list.current_task}):No such file or directory - #{@src} inside the folder - #{Dir.getwd}"
-      exit
-    end
   end
 
   def dest
-  	@task_list.task_config.each {|k, v| @dest = v if k == "dest"}
+  	dest = @task_list.task_config("dest")
+    if dest.nil?
+      puts "ERROR(-#{@task_list.current_task}):Specify the dest"
+      exit
+    end
   	Dir.chdir(@root)
-    if Dir.exist?(@dest)
-      @dest
+    dest.split('/').each do |dir|
+      if Dir.exist?(dir)
+        Dir.chdir(dir)
+      else
+        Dir.mkdir(dir)
+        Dir.chdir(dir)
+      end
+    end
+    dest
+  end
+
+  def src
+    src = @task_list.task_config("src")
+    if src.nil?
+      puts "ERROR(-#{@task_list.current_task}):Specify the src"
+      exit
+    end
+    Dir.chdir(@root)
+    if Dir.exist?(src)
+      Dir.chdir(src)
+      src
     else
-      puts "ERROR(-#{@task_list.current_task}):No such file or directory - #{@dest} inside the folder - #{Dir.getwd}"
+      puts "ERROR(-#{@task_list.current_task}):No such file or directory - \"#{src}\" inside  -\"#{Dir.getwd}\""
       exit
     end
   end
 
-  
+
 end
