@@ -12,11 +12,11 @@ module Rotate
     files = controller.src_files
     pbar = ProgressBar.new("#{task_list.current_task}", files.length)
     files.each do |f|
-  	  controller.src
+  	  controller.get_src
       img.read(f)
   	  img.each{|i| i.rotate!(angle)}
-  	  controller.dest
-      img.write(f)
+  	  controller.get_dest
+      img.write(controller.dest_file_name ? controller.dest_file_name : f)
   	  img.clear
       pbar.format="%-14s %3d%% #{f} %s %s"
   	  pbar.inc
