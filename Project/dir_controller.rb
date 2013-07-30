@@ -79,6 +79,10 @@ class DirController
     @file_name
   end
 
+  def dest_is_a_file?
+    dest_file_name ? true : false
+  end
+  
 private
   def clear_file_name
     @file_name = nil

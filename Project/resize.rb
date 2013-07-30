@@ -13,13 +13,25 @@ module Resize
     end
   	geometry_string += "!" unless task_list.task_config("aspect_ratio")
 
-     
     files = controller.src_files
     pbar = ProgressBar.new("#{task_list.current_task}", files.length * 2)
     img = Magick::ImageList.new
 
     controller.get_dest
-    if controller.dest_file_name.nil?
+    if controller.dest_is_a_file?
+      controller.get_src
+      files.each do |f|
+        img.read(f)
+        pbar.format="%-14s %3d%% #{f} %s %s"
+        pbar.inc
+      end
+      img.each do|i| 
+        i.change_geometry(geometry_string){|cols, rows, image| image.resize!(cols, rows)}
+        pbar.inc
+      end
+      controller.get_dest
+      img.write(controller.dest_file_name)
+    else
       files.each do |f|
         controller.get_src
         img.read(f)
@@ -32,21 +44,6 @@ module Resize
         pbar.format="%-14s %3d%% #{f} %s %s"
         pbar.inc
       end
-    else
-      controller.get_src
-      files.each do |f|
-        img.read(f)
-        pbar.format="%-14s %3d%% #{f} %s %s"
-        pbar.inc
-      end
-
-      img.each do|i| 
-        i.change_geometry(geometry_string){|cols, rows, image| image.resize!(cols, rows)}
-        pbar.inc
-      end
-        
-      controller.get_dest
-      img.write(controller.dest_file_name)
     end
   pbar.finish
   end

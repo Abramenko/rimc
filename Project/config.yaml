@@ -3,7 +3,7 @@ descriptions:
   - "small image":
      src: "Images/Original"
      dest: "Images/Resized/fd.jpg"
-     size: "200x200"
+     size: "700x700"
      aspect_ratio: true
      format:
       - jpg
@@ -36,7 +36,7 @@ descriptions:
       - x-pro2
  rotate:
   - "rotate":
-     src: "Images/Original/torus.gif"
+     src: "Images/Original/"
      dest: "Images/Rotated/t.pdf"
      angle: 90
      format: 
