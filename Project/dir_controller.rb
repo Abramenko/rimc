@@ -83,6 +83,11 @@ class DirController
     dest_file_name ? true : false
   end
   
+  def get_root
+    Dir.chdir(@root)
+    @root
+  end
+
 private
   def clear_file_name
     @file_name = nil

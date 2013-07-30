@@ -8,9 +8,24 @@ module Resize
   def self.do(task_list, controller)
   	geometry_string = task_list.task_config("size")
     if geometry_string.nil?
-      puts "ERROR(Resize.rb):Specify the size of the method #{task_list.current_task}"
+      puts "ERROR(- #{task_list.current_task}):Specify the size of the method"
       return
     end
+      
+      controller.get_root
+      a = YAML.load_file("alias.yaml")
+      a["size"].each do |n|
+        geometry_string = n.last if n.first == geometry_string
+      end
+        
+
+    geometry_string.split("x").each do |n|
+      if  n.to_i == 0
+        puts "ERROR(- #{task_list.current_task}): not correct defined \"size:\""
+        return
+      end
+    end 
+
   	geometry_string += "!" unless task_list.task_config("aspect_ratio")
 
     files = controller.src_files

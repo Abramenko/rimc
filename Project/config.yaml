@@ -2,17 +2,19 @@ descriptions:
  resize:
   - "small image":
      src: "Images/Original"
-     dest: "Images/Resized/fd.jpg"
-     size: "700x700"
-     aspect_ratio: true
+     dest: "Images/Resized/"
+     size: "200x700"
+     aspect_ratio: false
      format:
       - jpg
       - gif
 
   - "big image":
      src: "Images/Original/"
-     dest: "Images/Resized/fd.pdf"
-     size: "700x700"
+     dest: "Images/Resized/"
+     size: "ipad"
+     format:
+      - png
 
  crop:
   - "thumbnail":
@@ -40,7 +42,7 @@ descriptions:
      dest: "Images/Rotated/t.pdf"
      angle: 90
      format: 
-      - gif
+      - pdf
 tasks:
   default:
    - rotate
