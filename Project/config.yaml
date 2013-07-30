@@ -1,10 +1,10 @@
 descriptions:
  resize:
   - "small image":
-     src: "Images/Original"
+     src: "Images/Original/torus.gif"
      dest: "Images/Resized/"
      size: "200x700"
-     aspect_ratio: false
+     aspect_ratio: true
      format:
       - jpg
       - gif
@@ -20,9 +20,13 @@ descriptions:
   - "thumbnail":
      src: "Images/Original/"
      dest: "Images/Crop"
-     area: "200x200"
-     prefix: “thumb-”
-     from: "left corner"
+     from: "center"
+     area: "ipod"
+     prefix: "thumb-"
+     format:
+      - jpg
+      - gif
+
  css_sprite:
   - "linear":
      src: "path/to/folder"
@@ -45,12 +49,12 @@ descriptions:
       - pdf
 tasks:
   default:
+   - thumbnail
    - rotate
    - big image
    - small image
    - make b/w
    - linear
-   - thumbnail
   custom:
    - big image
    - make b/w

@@ -2,3 +2,7 @@ size:
  iphone: "640x960"
  ipad: "768x1024"
  ipod: "320x480"
+area:
+ iphone: "640x960"
+ ipad: "768x1024"
+ ipod: "320x480"

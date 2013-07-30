@@ -21,6 +21,5 @@ module Main
 	        else puts "ERROR(main.rb):\"#{task_list.current_group}\"is not found"
         end
       end
-      puts "Welldone!"
     end
 end
