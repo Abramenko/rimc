@@ -1,5 +1,6 @@
 require_relative 'task_list'
 require_relative 'dir_controller'
+require 'yaml'
 require 'RMagick'
 require 'progressbar'
 
@@ -31,8 +32,9 @@ module Crop
 #Get "prefix"
     prefix = task_list.task_config("prefix").nil? ? "" : task_list.task_config("prefix")
 
-#Get "from" parametr and set "gravity" for .crop method
+#Get "from" parametr
     from = task_list.task_config("from")
+#Set "gravity" for .crop method
     if from == "top left corner"
       gravity = Magick::NorthWestGravity
     elsif from == "top right corner"
@@ -63,6 +65,7 @@ module Crop
 
     controller.get_dest
     if controller.dest_is_a_file?
+# Destination is ONE file
       controller.get_src
       files.each do |f|
         img.read(f)
@@ -74,8 +77,9 @@ module Crop
         pbar.inc
       end
       controller.get_dest
-      img.write(controller.dest_file_name)
+      img.write(controller.dest_file_name) # Write
     else
+# Destination is MANY files
       files.each do |f|
         controller.get_src
         img.read(f)
@@ -89,7 +93,7 @@ module Crop
         pbar.inc
       end
     end
-  pbar.finish
+    pbar.finish
   end
 
   

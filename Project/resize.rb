@@ -6,6 +6,7 @@ require 'progressbar'
 module Resize
 
   def self.do(task_list, controller)
+# Get and check "size" parametr
   	geometry_string = task_list.task_config("size")
     if geometry_string.nil?
       puts "ERROR(- #{task_list.current_task}):Specify the size of the method"
@@ -24,11 +25,11 @@ module Resize
     end 
   	geometry_string += "!" unless task_list.task_config("aspect_ratio")
 
-
+# Work with images
     files = controller.src_files
     pbar = ProgressBar.new("#{task_list.current_task}", files.length * 2)
     img = Magick::ImageList.new
-
+# Destination is ONE file
     controller.get_dest
     if controller.dest_is_a_file?
       controller.get_src
@@ -38,17 +39,18 @@ module Resize
         pbar.inc
       end
       img.each do|i| 
-        i.change_geometry(geometry_string){|cols, rows, image| image.resize!(cols, rows)}
+        i.change_geometry(geometry_string){|cols, rows, image| image.resize!(cols, rows)}   # Resize
         pbar.inc
       end
       controller.get_dest
       img.write(controller.dest_file_name)
+# Destination is MANY files
     else
       files.each do |f|
         controller.get_src
         img.read(f)
         img.each do|i| 
-          i.change_geometry(geometry_string){|cols, rows, image| image.resize!(cols, rows)}
+          i.change_geometry(geometry_string){|cols, rows, image| image.resize!(cols, rows)}   # Resize
         end
         controller.get_dest
         img.write(f)
@@ -57,7 +59,7 @@ module Resize
         pbar.inc
       end
     end
-  pbar.finish
+    pbar.finish
   end
   
 

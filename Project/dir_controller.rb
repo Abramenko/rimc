@@ -1,10 +1,13 @@
+# Class: DirController 
+# - Controls "src"/"dest" parametrs
+# - Goes in the "src"/"dest" directories
 require_relative 'task_list'
 
 class DirController
   def initialize(task_list)
   	@task_list = task_list
-    @root = Dir.getwd
-    @file_name = nil
+    @root = Dir.getwd # the directory when creating an object
+    @file_name = nil  # here is the name of destination file, if "dest" is file
   end
 
   def src_files
@@ -80,7 +83,7 @@ class DirController
   end
 
   def dest_is_a_file?
-    dest_file_name ? true : false
+    @file_name ? true : false
   end
   
   def get_root

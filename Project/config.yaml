@@ -29,17 +29,18 @@ descriptions:
 
  css_sprite:
   - "linear":
-     src: "path/to/folder"
+     src: "Images/Original/"
      dest: "sprite.png"
      type: "linear"
  filtering:
-  - "make b/w":
-     src: "path/to/folder/or/file"
-     dest: "path/to/folder/or/file"
+  - "use filters":
+     src: "Images/Original/"
+     dest: "Images/Filtered/"
      filters:
-      - bw
       - sepia
-      - x-pro2
+      - bw
+     format:
+       - gif
  rotate:
   - "rotate":
      src: "Images/Original/"
@@ -53,7 +54,7 @@ tasks:
    - rotate
    - big image
    - small image
-   - make b/w
+   - use filters
    - linear
   custom:
    - big image
