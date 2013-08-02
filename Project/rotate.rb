@@ -9,6 +9,9 @@ module Rotate
 # Get "angle" parametr
   	angle = task_list.task_config("angle")
     angle = 0 if angle.nil?
+#Get "prefix"
+    prefix = task_list.task_config("prefix").nil? ? "" : task_list.task_config("prefix")
+
 # Work with images
     files = controller.src_files
     pbar = ProgressBar.new("#{task_list.current_task}", files.length)
@@ -28,7 +31,7 @@ module Rotate
         pbar.inc
       end
       controller.get_dest
-      img.write(controller.dest_file_name)
+      img.write(prefix + controller.dest_file_name) # Write
     else
 # Destination is MANY files
       files.each do |f|
@@ -38,7 +41,7 @@ module Rotate
           i.rotate!(angle)  # Rotate
         end
         controller.get_dest
-        img.write(f)
+        img.write(prefix + f) # Write
         img.clear
         pbar.format="%-14s %3d%% #{f} %s %s"
         pbar.inc

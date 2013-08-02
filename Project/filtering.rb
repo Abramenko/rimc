@@ -13,7 +13,10 @@ module Filtering
       puts "ERROR(- #{task_list.current_task}): \"Define filters:\" |"
       exit
     end
-    
+  
+#Get "prefix"
+    prefix = task_list.task_config("prefix").nil? ? "" : task_list.task_config("prefix")
+
 # Work with images
     files = controller.src_files
     pbar = ProgressBar.new("#{task_list.current_task}", files.length * 2)
@@ -42,7 +45,7 @@ module Filtering
           next
         end
         controller.get_dest
-        f_img.write("#{filter}-" + controller.dest_file_name)  # Write
+        f_img.write(prefix + "#{filter}-" + controller.dest_file_name)  # Write
         pbar.inc
       end
 
@@ -66,7 +69,7 @@ module Filtering
             next
           end
           controller.get_dest
-          f_img.write("#{filter}-" + f)  # Write
+          f_img.write(prefix + "#{filter}-" + f)  # Write
         end
         
         img.clear

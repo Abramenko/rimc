@@ -77,7 +77,7 @@ module Crop
         pbar.inc
       end
       controller.get_dest
-      img.write(controller.dest_file_name) # Write
+      img.write(prefix + controller.dest_file_name) # Write
     else
 # Destination is MANY files
       files.each do |f|

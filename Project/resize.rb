@@ -25,6 +25,9 @@ module Resize
     end 
   	geometry_string += "!" unless task_list.task_config("aspect_ratio")
 
+#Get "prefix"
+    prefix = task_list.task_config("prefix").nil? ? "" : task_list.task_config("prefix")
+
 # Work with images
     files = controller.src_files
     pbar = ProgressBar.new("#{task_list.current_task}", files.length * 2)
@@ -43,7 +46,7 @@ module Resize
         pbar.inc
       end
       controller.get_dest
-      img.write(controller.dest_file_name)
+      img.write(prefix + controller.dest_file_name) # Write
 # Destination is MANY files
     else
       files.each do |f|
@@ -53,7 +56,7 @@ module Resize
           i.change_geometry(geometry_string){|cols, rows, image| image.resize!(cols, rows)}   # Resize
         end
         controller.get_dest
-        img.write(f)
+        img.write(prefix + f) # Write
         img.clear
         pbar.format="%-14s %3d%% #{f} %s %s"
         pbar.inc

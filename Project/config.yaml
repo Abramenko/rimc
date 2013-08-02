@@ -1,61 +1,78 @@
 descriptions:
  resize:
   - "small image":
-     src: "Images/Original/torus.gif"
-     dest: "Images/Resized/"
-     size: "200x700"
+     src: "Images/Original/"
+     dest: "Images/Packed/"
+     size: "100x100"
      aspect_ratio: true
-     format:
-      - jpg
-      - gif
+     prefix: "s_i-"
 
   - "big image":
      src: "Images/Original/"
-     dest: "Images/Resized/"
+     dest: "Images/Horizontal/"
      size: "ipad"
      format:
-      - png
+      - jpg
+     prefix: "b_i-"
 
  crop:
   - "thumbnail":
      src: "Images/Original/"
-     dest: "Images/Crop"
+     dest: "Images/Packed/"
      from: "center"
-     area: "ipod"
+     area: "iphone"
      prefix: "thumb-"
-     format:
-      - jpg
-      - gif
 
  css_sprite:
-  - "linear":
-     src: "Images/Original/"
-     dest: "sprite.png"
-     type: "linear"
+  - "horizontal":
+     src: "Images/Horizontal"
+     layout: "horizontal"
+     style: "css"
+     selector: "div."
+     cssurl: "www.lodossteam.com"
+     nocomments: true
+
+  - "vertical":
+     src: "Images/Vertical/"
+     layout: "vertical"
+     style: "sass"
+
+  - "packed":
+     src: "Images/Packed/"
+     layout: "packed"
+     style: "scss"
+
  filtering:
-  - "use filters":
+  - "black/white":
      src: "Images/Original/"
-     dest: "Images/Filtered/"
+     dest: "Images/Vertical/"
+     filters:
+      - bw
+     prefix: "bw-"
+
+  - "sepia":
+     src: "Images/Original/"
+     dest: "Images/Horizontal/"
      filters:
       - sepia
-      - bw
      format:
-       - gif
+      - pdf
+     prefix: "sep-"
+
  rotate:
   - "rotate":
      src: "Images/Original/"
-     dest: "Images/Rotated/t.pdf"
+     dest: "Images/Horizontal"
      angle: 90
-     format: 
-      - pdf
+     prefix: "rotate-"
 tasks:
   default:
+   - small image
+   - big image
    - thumbnail
    - rotate
-   - big image
-   - small image
-   - use filters
-   - linear
-  custom:
-   - big image
-   - make b/w
+   - black/white
+   - sepia
+   - horizontal
+   - vertical
+   - packed
