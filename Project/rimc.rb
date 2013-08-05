@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require_relative 'main'
+require_relative 'lib/main'
 
 Main.run
