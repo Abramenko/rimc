@@ -139,7 +139,7 @@ example:
 
     css_sprite:
       - "horizontal":
-         src: "images/icons"
+         src: "images/iconsl"
          selector: "span.icon_"
          
 ... will generate:
