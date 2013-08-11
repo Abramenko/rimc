@@ -31,52 +31,56 @@ class DirController
   end
 
   def get_dest
-  	clear_file_name
-    dest = @task_list.task_config("dest")
-    if dest.nil?
-      puts "ERROR(-#{@task_list.current_task}):Specify the dest"
+    begin
+  	  clear_file_name
+      dest = @task_list.task_config("dest")
+  
+  	    
+        if dest.byteslice(0) == "/"
+          Dir.chdir("/")
+          dest = dest[1..-1]
+        else
+          Dir.chdir(@root)
+        end
+
+        dest.split('/').each do |dir|
+          if Dir.exist?(dir)      
+            Dir.chdir(dir)
+          elsif dir.include?('.')
+            @file_name = dir
+          else
+            Dir.mkdir(dir)
+            Dir.chdir(dir)
+          end
+        end
+        
+    rescue Exception
+      puts "ERROR (dir_controller.rb): Can't get dest:\"#{dest}\" in the description \'#{@task_list.current_task}\'"
       exit
     end
-
-  	  Dir.chdir(@root)
-      result = "./"
-      dest.split('/').each do |dir|
-        if Dir.exist?(dir)
-          
-          Dir.chdir(dir)
-          result += dir + "/"
-        elsif dir.include?('.')
-          @file_name = dir
-        else
-          Dir.mkdir(dir)
-          Dir.chdir(dir)
-        end
-      end
-      result
   end
 
   def get_src
-    clear_file_name
-    src = @task_list.task_config("src")
-    if src.nil?
-      puts "ERROR(-#{@task_list.current_task}):Specify the src"
+    begin
+      clear_file_name
+      src = @task_list.task_config("src")
+      
+      Dir.chdir(@root)
+
+      if File.file?(src)
+        @file_name = File.basename(src)
+        src = File.dirname(src)
+        Dir.chdir(src)
+      elsif File.directory?(src)
+        Dir.chdir(src)
+      else
+        raise
+      end
+      src
+    rescue Exception
+      puts "ERROR (dir_controller.rb): Can't get the src: \"#{src}\" in the description \'#{@task_list.current_task}\'"
       exit
     end
-
-    Dir.chdir(@root)
-    result = "./"
-    src.split('/').each do |dir|
-      if Dir.exist?(dir)
-        Dir.chdir(dir)
-        result += dir + "/"
-      elsif File.file?(dir)
-        @file_name = dir
-      else
-        puts "ERROR(-#{@task_list.current_task}):No such file or directory - \"#{src}\" inside  -\"#{Dir.getwd}\""
-        exit
-      end
-    end
-    result
   end
 
   def dest_file_name
@@ -87,7 +91,7 @@ class DirController
     @file_name ? true : false
   end
   
-  def get_root
+  def get_root 
     Dir.chdir(@root)
     @root
   end
@@ -97,3 +101,4 @@ private
     @file_name = nil
   end
 end
+

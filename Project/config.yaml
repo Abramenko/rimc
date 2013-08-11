@@ -1,8 +1,8 @@
 descriptions:
  resize:
   - "small image":
-     src: "Images/Original/"
-     dest: "Images/Packed/"
+     src: 'Images/Original'
+     dest: 'Images/My/'
      size: "100x100"
      aspect_ratio: true
      prefix: "s_i-"
