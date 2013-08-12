@@ -5,9 +5,14 @@ require_relative 'resize'
 require_relative 'crop'
 require_relative 'filtering'
 require_relative 'css_sprite'
+require 'yaml'
+require 'RMagick'
+require 'progressbar'
+
 
 module Main
 	def self.run
+    begin
       task_list = TaskList.new("config.yaml")
       controller = DirController.new(task_list)
 
@@ -21,5 +26,10 @@ module Main
 	        else puts "ERROR(main.rb):\"#{task_list.current_group}\"is not found"
         end
       end
+      puts "Done!"
+    rescue
+      puts "#{task_list.current_task}: ERROR(main.rb): Fatal error. Processing is stopped..."
+      return
     end
+  end
 end

@@ -1,5 +1,3 @@
-require 'yaml'
-
 class TaskList
   attr_reader :task_list
 
